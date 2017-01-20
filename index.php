@@ -5,28 +5,23 @@ Original Author: Jeremy E. Blum (http://www.jeremyblum.com)
 Security Edits By: Felix Ryan (https://www.felixrr.pro)
 License: GPL v3 (http://www.gnu.org/licenses/gpl.html)
 */ 
-
 //You should not need to edit this file. Adjust Parameters in the config file:
 require_once('config.php');
-
 //set headers that harden the HTTPS session
 if ($USE_HTTPS)
 {
    header("Strict-Transport-Security: max-age=7776000"); //HSTS headers set for 90 days
 }
-
 // Enable flushing
 ini_set('implicit_flush', true);
 ob_implicit_flush(true);
 ob_end_flush();
-
 //Set the correct protocol
 if ($USE_HTTPS && !$_SERVER['HTTPS'])
 {
    header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
    exit;
 }
-
 //Set default computer (this is business logic so should be done last)
 if (empty($_GET))
 {
@@ -35,7 +30,6 @@ if (empty($_GET))
 }
 else
    $_GET['computer'] = preg_replace("/[^0-9,.]/", "", $_GET['computer']);
-
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +49,6 @@ else
         padding-bottom: 40px;
         background-color: #f5f5f5;
       }
-
       .form-signin {
         max-width: 600px;
         padding: 19px 29px 29px;
@@ -80,7 +73,6 @@ else
         margin-bottom: 15px;
         padding: 7px 9px;
       }
-
     </style>
     <link href="<?php echo $BOOTSTRAP_LOCATION_PREFIX; ?>bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -106,10 +98,11 @@ else
 				//print_r($_POST); //Useful for POST Debugging
 				$approved_wake = false;
 				$approved_sleep = false;
-				if ( isset($_POST['password']) )
-		                {
-                			$hash = hash("sha256", $_POST['password']);
-			                if ($hash == $APPROVED_HASH)
+				//Comment out next 4 lines - Remove password requirement
+				//( isset($_POST['password']) )
+		                //{
+                			 //$hash = hash("sha256", $_POST['password']);
+			                 //if ($hash == $APPROVED_HASH)
 			                {
 						if ($_POST['submitbutton'] == "Wake Up!")
 						{
@@ -120,10 +113,9 @@ else
 							$approved_sleep = true;
 						}
 					}
-				}
-
+				//Comment out next line - Corresponding bracket to remove password requirements
+				//}
 				$selectedComputer = $_GET['computer'];
-
 			 	echo "Remote Wake/Sleep-On-LAN</h3>";
 				if ($approved_wake) {
 					echo "Waking Up!";
@@ -151,7 +143,6 @@ else
 
 				<?php } ?>
             <?php
-
 				if (!isset($_POST['submitbutton']) || (isset($_POST['submitbutton']) && !$approved_wake && !$approved_sleep))
 				{
 					echo "<h5 id='wait'>Querying Computer State. Please Wait...</h5>";
@@ -172,9 +163,7 @@ else
 						echo "<h5>" . $COMPUTER_NAME[$selectedComputer] . " is presently awake.</h5>";
 					}
 				}
-
                 $show_form = true;
-
                 if ($approved_wake)
                 {
                 	echo "<p>Approved. Sending WOL Command...</p>";
@@ -258,7 +247,8 @@ else
                 if ($show_form)
                 {
             ?>
-        			<input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password">
+<!-- Comment out line below - Remove password box -->
+        			<!-- <input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password"> -->
                     <?php if ( (isset($_POST['submitbutton']) && $_POST['submitbutton'] == "Wake Up!") || (!isset($_POST['submitbutton']) && $asleep) ) {?>
         				<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Wake Up!"/>
 						<input type="hidden" name="submitbutton" value="Wake Up!"/>  <!-- handle if IE used and enter button pressed instead of wake up button -->
