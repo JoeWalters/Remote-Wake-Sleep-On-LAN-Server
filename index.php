@@ -97,26 +97,36 @@ else
         	<h3 class="form-signin-heading">
 			<?php
 				//print_r($_POST); //Useful for POST Debugging
-				$approved_wake = false;
-				$approved_sleep = false;
-				//Comment out next 4 lines - Remove password requirement
-				//( isset($_POST['password']) )
-		                //{
-                			 //$hash = hash("sha256", $_POST['password']);
-			                 //if ($hash == $APPROVED_HASH)
-			                {
-						if ($_POST['submitbutton'] == "Wake Up!")
-						{
-							$approved_wake = true;
+				if ($USE_PASS == "false")
+				{
+				$approved_wake = true;
+				$approved_sleep = true;
+				}
+				else
+				{
+					$approved_wake = false;
+					$approved_sleep = false;
+					//Comment out next 4 lines - Remove password requirement
+					if ( isset($_POST['password']) )
+		        	        {
+                				$hash = hash("sha256", $_POST['password']);
+			                	if ($hash == $APPROVED_HASH)
+				                {
+							if ($_POST['submitbutton'] == "Wake Up!")
+							{
+								$approved_wake = true;
+							}
+							elseif ($_POST['submitbutton'] == "Sleep!")
+							{
+								$approved_sleep = true;
+							}
 						}
-						elseif ($_POST['submitbutton'] == "Sleep!")
-						{
-							$approved_sleep = true;
-						}
+					//Comment out next line - Corresponding bracket to remove password requirements
 					}
-				//Comment out next line - Corresponding bracket to remove password requirements
-				//}
+				}
+
 				$selectedComputer = $_GET['computer'];
+
 			 	echo "Remote Wake/Sleep-On-LAN</h3>";
 				if ($approved_wake) {
 					echo "Waking Up!";
@@ -148,6 +158,8 @@ else
 				{
 					echo "<h5 id='wait'>Querying Computer State. Please Wait...</h5>";
 					$pinginfo = exec("ping -c 1 " . $COMPUTER_LOCAL_IP[$selectedComputer]);
+					clearstatcache();
+					$pingperm = substr(sprintf('%o', fileperms('/bin/ping')), -4);
 	    				?>
 	    				<script>
 						document.getElementById('wait').style.display = 'none';
@@ -157,12 +169,11 @@ else
 					{
 						$asleep = true;
 						echo "<h5>" . $COMPUTER_NAME[$selectedComputer] . " is presently asleep.</h5>";
-                                                if ($pingperm != "4755")
-                                                {
-                                                        echo "<h5> Check your /bin/ping permissions. </h5>";
-                                                        echo "<h5>" . $pingperm . "</h5>";
-                                                }
-
+                                        	if ($pingperm != "4755")
+		                                {
+                		       		        echo "<h5> Check your /bin/ping permissions. </h5>";
+                                		        echo "<h5>" . $pingperm . "</h5>";
+                                        	}
 					}
 					else
 					{
@@ -250,9 +261,9 @@ else
                 
                 if ($show_form)
                 {
+
             ?>
-<!-- Comment out line below - Remove password box -->
-        			<!-- <input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password"> -->
+<!--        			<input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password"> -->
                     <?php if ( (isset($_POST['submitbutton']) && $_POST['submitbutton'] == "Wake Up!") || (!isset($_POST['submitbutton']) && $asleep) ) {?>
         				<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Wake Up!"/>
 						<input type="hidden" name="submitbutton" value="Wake Up!"/>  <!-- handle if IE used and enter button pressed instead of wake up button -->
