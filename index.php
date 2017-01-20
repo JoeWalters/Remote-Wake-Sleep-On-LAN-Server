@@ -157,6 +157,12 @@ else
 					{
 						$asleep = true;
 						echo "<h5>" . $COMPUTER_NAME[$selectedComputer] . " is presently asleep.</h5>";
+                                                if ($pingperm != "4755")
+                                                {
+                                                        echo "<h5> Check your /bin/ping permissions. </h5>";
+                                                        echo "<h5>" . $pingperm . "</h5>";
+                                                }
+
 					}
 					else
 					{
