@@ -167,6 +167,8 @@ else
 				{
 					echo "<h5 id='wait'>Querying Computer State. Please Wait...</h5>";
 					$pinginfo = exec("ping -c 1 " . $COMPUTER_LOCAL_IP[$selectedComputer]);
+					clearstatcache();
+					$pingperm = substr(sprintf('%o', fileperms('/bin/ping')), -4);
 	    				?>
 	    				<script>
 						document.getElementById('wait').style.display = 'none';
@@ -176,6 +178,11 @@ else
 					{
 						$asleep = true;
 						echo "<h5>" . $COMPUTER_NAME[$selectedComputer] . " is presently asleep.</h5>";
+                                        	if ($pingperm != "4755")
+		                                {
+                		       		        echo "<h5> Check your /bin/ping permissions. </h5>";
+                                		        echo "<h5>" . $pingperm . "</h5>";
+                                        	}
 					}
 					else
 					{
