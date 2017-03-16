@@ -280,18 +280,6 @@ else
             
 			echo '<input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password">';
 			}
-                     if ( (isset($_POST['submitbutton']) && $_POST['submitbutton'] == "Wake Up!") || (!isset($_POST['submitbutton']) && $asleep) ) {
-        				echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Wake Up!"/>';
-					echo '<input type="hidden" name="submitbutton" value="Wake Up!"/>  <!-- handle if IE used and enter button pressed instead of wake up button -->';
-                     } else {
-		                echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Sleep!"/>';
-						echo '<input type="hidden" name="submitbutton" value="Sleep!" />  <!-- handle if IE used and enter button pressed instead of sleep button -->';
-                     }	
-	
-				}
-			?>
-		</form>
-    </div> <!-- /container -->
-    <script src="<?php echo $BOOTSTRAP_LOCATION_PREFIX; ?>bootstrap/js/bootstrap.min.js"></script>
-  </body>
-</html>
+			echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Wake Up!"/>';
+			echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Sleep!"/>';
+			}
