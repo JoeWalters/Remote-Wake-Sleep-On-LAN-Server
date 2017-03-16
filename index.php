@@ -257,5 +257,8 @@ else
 			echo '<input type="password" autocomplete=off class="input-block-level" placeholder="Enter Passphrase" name="password">';
 			}
 			echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Wake Up!"/>';
+			if ($ENABLE_SLEEP == "true") {
+
 			echo '<input class="btn btn-large btn-primary" type="submit" name="submitbutton" value="Sleep!"/>';
 			}
+				}	

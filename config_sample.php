@@ -1,7 +1,8 @@
 <?php
 	/*
 	Remote Wake/Sleep-On-LAN Server [CONFIGURATION FILE]
-	https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server
+	https://github.com/JoeWalters/Remote-Wake-Sleep-On-LAN-Server
+	Forked from: https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server
 	Original Author: Jeremy E. Blum (http://www.jeremyblum.com)
 	Security Edits By: Felix Ryan (https://www.felixrr.pro)
 	License: GPL v3 (http://www.gnu.org/licenses/gpl.html)
@@ -34,6 +35,9 @@
 
 	// This is the LOCAL IP address of the computer you are trying to wake.  Use a reserved DHCP through your router's administration interface to ensure it doesn't change.
 	$COMPUTER_LOCAL_IP = array("192.168.0.1","192.168.0.2");
+
+        // Set the below to "true" (no quotes) to enable the sleep button
+        $ENABLE_SLEEP = false;
 
 	// This is the Port being used by the Windows SleepOnLan Utility to initiate a Sleep State
 	// http://www.ireksoftware.com/SleepOnLan/
